@@ -1,15 +1,14 @@
 const chalk = require('chalk')
 const getNotes = require('./notes.js')
 
-const msg = getNotes()
+const command = process.argv[2]
 
-console.log(chalk.blue(msg))
+console.log(process.argv)
 
-const greenMsg = chalk.bold.inverse.green('Success!')
-console.log(greenMsg)
+if (command === 'add') {
+    console.log('Adding note!!!')
+} else if (command === 'remove') {
+    console.log('Removing note!')
+}
 
-console.log(chalk.bold.inverse.red('Error!'))
-
-console.log(chalk.bgBlue('Chalk test'))
-
-// https://www.npmjs.com/package/chalk
+// node app.js remove --title="This is my title"
