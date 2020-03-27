@@ -5,7 +5,10 @@ const msg = getNotes()
 
 console.log(chalk.blue(msg))
 
-console.log(chalk.bold.inverse.green('Success!'))
+const greenMsg = chalk.bold.inverse.green('Success!')
+console.log(greenMsg)
+
+console.log(chalk.bold.inverse.red('Error!'))
 
 console.log(chalk.bgBlue('Chalk test'))
 
