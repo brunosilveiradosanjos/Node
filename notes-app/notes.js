@@ -1,5 +1,5 @@
 const fs = require('fs')
-
+const chalk = require('chalk')
 const fileName = 'notes.json'
 
 const getNotes = function () {
@@ -28,6 +28,22 @@ const addNote = function (title, body) {
     console.log(notes)
 }
 
+const removeNote = function (title) {
+    const notes = loadNotes()
+    // Build filteredNote with the objects that are not int the JSON file 
+    const filteredNote = notes.filter(function (note) {
+        return note.title !== title
+    })
+
+    // Same size means title is not int JSON file
+    if (filteredNote.length != notes.length) {
+        saveNotes(filteredNote)
+        console.log(chalk.bold.green('"' + title + '" Note removed'))
+    } else {
+        console.log(chalk.bold.red('"' + title + '" is not in ' + fileName))
+    }
+}
+
 const saveNotes = function (notes) {
     const dataJSON = JSON.stringify(notes)
     fs.writeFileSync(fileName, dataJSON)
@@ -46,5 +62,6 @@ const loadNotes = function () {
 
 module.exports = {
     getNotes: getNotes,
-    addNote: addNote
+    addNote: addNote,
+    removeNote: removeNote
 }
