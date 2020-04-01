@@ -2,16 +2,12 @@ const fs = require('fs')
 const chalk = require('chalk')
 const fileName = 'notes.json'
 
-const getNotes = function () {
-    return 'Your notes...'
-}
+const getNotes = () => 'Your notes...'
 
-const addNote = function (title, body) {
+const addNote = (title, body) => {
     const notes = loadNotes()
     // Check in every notes if the title already exists
-    const duplicateNotes = notes.filter(function (note) {
-        return note.title === title
-    })
+    const duplicateNotes = notes.filter((note) => note.title === title)
 
     // If this title is on notes then length <> 0
     if (duplicateNotes.length === 0) {
@@ -28,12 +24,10 @@ const addNote = function (title, body) {
     console.log(notes)
 }
 
-const removeNote = function (title) {
+const removeNote = (title) => {
     const notes = loadNotes()
     // Build filteredNote with the objects that are not int the JSON file 
-    const filteredNote = notes.filter(function (note) {
-        return note.title !== title
-    })
+    const filteredNote = notes.filter((note) => note.title !== title)
 
     // Same size means title is not int JSON file
     if (filteredNote.length != notes.length) {
@@ -44,12 +38,12 @@ const removeNote = function (title) {
     }
 }
 
-const saveNotes = function (notes) {
+const saveNotes = (notes) => {
     const dataJSON = JSON.stringify(notes)
     fs.writeFileSync(fileName, dataJSON)
 }
 
-const loadNotes = function () {
+const loadNotes = () => {
 
     try {
         const dataBuffer = fs.readFileSync(fileName)
