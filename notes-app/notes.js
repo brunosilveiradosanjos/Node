@@ -2,15 +2,12 @@ const fs = require('fs')
 const chalk = require('chalk')
 const fileName = 'notes.json'
 
-const getNotes = () => 'Your notes...'
-
 const addNote = (title, body) => {
     const notes = loadNotes()
     // Check in every notes if the title already exists
-    const duplicateNotes = notes.filter((note) => note.title === title)
-
-    // If this title is on notes then length <> 0
-    if (duplicateNotes.length === 0) {
+    const duplicateNote = notes.find((note) => note.title === title)
+    // If there isnt an duplicated note
+    if (!duplicateNote) {
         notes.push({
             title: title,
             body: body
@@ -40,10 +37,20 @@ const removeNote = (title) => {
 
 const listNote = () => {
     const notes = loadNotes()
-    console.log(chalk.bold.yellow('Your notes:'))
     notes.forEach((note) => {
         console.log(chalk.bold.green('"' + note.title + '"'))
     })
+}
+
+const readNote = (title) => {
+    const notes = loadNotes()
+    const myNote = notes.find((note) => note.title === title)
+    if (myNote) {
+        console.log(chalk.bold.blue('"' + myNote.title + '"'))
+        console.log('"' + myNote.body + '"')
+    } else {
+        console.log(chalk.bold.red('"Note not finded"'))
+    }
 }
 
 const saveNotes = (notes) => {
@@ -63,8 +70,8 @@ const loadNotes = () => {
 }
 
 module.exports = {
-    getNotes: getNotes,
     addNote: addNote,
     removeNote: removeNote,
-    listNote: listNote
+    listNote: listNote,
+    readNote: readNote
 }
