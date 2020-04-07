@@ -2,16 +2,16 @@ const request = require('request')
 
 const geocode = (address, mapBoxKey, callback) => {
     const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(address) + '.json?access_token=' + mapBoxKey + '&limit=1'
-    request({ url: url, json: true }, (error, response) => {
+    request({ url, json: true }, (error, { body }) => {
         if (error) {
             callback('Unable to connect to location service!', undefined)
-        } else if (response.body.message) {
-            callback(response.body.message, undefined)
+        } else if (body.message) {
+            callback(body.message, undefined)
         } else {
             callback(undefined, {
-                lat: response.body.features[0].center[1],
-                lon: response.body.features[0].center[0],
-                location: response.body.features[0].place_name
+                lat: body.features[0].center[1],
+                lon: body.features[0].center[0],
+                location: body.features[0].place_name
             })
         }
     })

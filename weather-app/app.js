@@ -7,15 +7,15 @@ if (!location) {
     return console.log('Please provide location')
 }
 
-geocode(location, MapBoxKey, (error, data) => {
+geocode(location, MapBoxKey, (error, { lat, lon, location }) => {
     if (error) {
         return console.log(error)
     }
-    forecast(data.lat, data.lon, OpenWeatherKey, (error, forecastData) => {
+    forecast(lat, lon, OpenWeatherKey, (error, forecastData) => {
         if (error) {
             return console.log(error)
         }
-        console.log(data.location)
+        console.log(location)
         console.log(forecastData)
     })
 })
