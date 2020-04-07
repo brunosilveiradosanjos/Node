@@ -1,7 +1,5 @@
 const request = require('request')
-const city = 'Dublin'
-
-url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + city + '.json?access_token=' + mapBoxKey + '&limit=1'
+const geocode = require('./utils/geocode')
 
 // url = 'http://api.openweathermap.org/data/2.5/weather?units=metric&q=' + city + '&appid=' + openWeatherKey + ''
 
@@ -18,12 +16,18 @@ url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + city + '.json?acces
 // })
 
 
-request({ url: url, json: true }, (error, response) => {
-    if (error) {
-        console.log('Unable to connect to weather service')
-    } else if (response.body.message) {
-        console.log(response.body.message)
-    } else {
-        console.log('Place: ' + response.body.features[0].place_name + '. Latitude: ' + response.body.features[0].center[1] + ' and longitude: ' + response.body.features[0].center[0] + '.')
-    }
+// request({ url: url, json: true }, (error, response) => {
+//     if (error) {
+//         console.log('Unable to connect to weather service')
+//     } else if (response.body.message) {
+//         console.log(response.body.message)
+//     } else {
+//         console.log('Place: ' + response.body.features[0].place_name + '. Latitude: ' + response.body.features[0].center[1] + ' and longitude: ' + response.body.features[0].center[0] + '.')
+//     }
+// })
+
+
+geocode('São Paulo', '', (error, data) => {
+    console.log('Error', error)
+    console.log('Data', data)
 })
