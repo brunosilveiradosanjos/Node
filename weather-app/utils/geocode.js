@@ -19,3 +19,14 @@ const geocode = (address, mapBoxKey, callback) => {
 }
 
 module.exports = geocode
+
+
+// request({ url: url, json: true }, (error, response) => {
+//     if (error) {
+//         console.log('Unable to connect to weather service')
+//     } else if (response.body.message) {
+//         console.log(response.body.message)
+//     } else {
+//         console.log('Place: ' + response.body.features[0].place_name + '. Latitude: ' + response.body.features[0].center[1] + ' and longitude: ' + response.body.features[0].center[0] + '.')
+//     }
+// })
