@@ -1,6 +1,9 @@
 const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
+const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
+const key = require('../../../my_key')
 
 const app = express()
 
@@ -41,14 +44,27 @@ app.get('/help', (req, res) => {
 
 // No weather file, send object to page
 app.get('/weather', (req, res) => {
-    if (!req.query.address) {
+    if (!req.query.location) {
         return res.send({
             error: 'Address needs to be provided!'
         })
     }
-    res.send({
-        forecast: 'Sunny',
-        address: req.query.address
+    geocode(req.query.location, key.MapBoxKey, (error, { lat, lon, location }) => {
+        if (error) {
+            return console.log(error)
+        }
+        forecast(lat, lon, key.OpenWeatherKey, (error, forecastData) => {
+            if (error) {
+                return console.log(error)
+            }
+            console.log(location)
+            console.log(forecastData)
+
+            res.send({
+                address: location,
+                forecast: forecastData
+            })
+        })
     })
 })
 
