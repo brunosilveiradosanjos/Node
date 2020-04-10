@@ -41,9 +41,26 @@ app.get('/help', (req, res) => {
 
 // No weather file, send object to page
 app.get('/weather', (req, res) => {
+    if (!req.query.address) {
+        return res.send({
+            error: 'Address needs to be provided!'
+        })
+    }
     res.send({
         forecast: 'Sunny',
-        location: 'São Paulo'
+        address: req.query.address
+    })
+})
+
+app.get('/products', (req, res) => {
+    if (!req.query.search) {
+        return res.send({
+            error: 'You must provide a search term'
+        })
+    }
+    console.log(req.query)
+    res.send({
+        products: []
     })
 })
 
