@@ -8,7 +8,7 @@ if (!location) {
     return console.log('Please provide location')
 }
 
-geocode(location, key.MapBoxKey, (error, { lat, lon, location }) => {
+geocode(location, key.MapBoxKey, (error, { lat, lon, location } = {}) => {
     if (error) {
         return console.log(error)
     }

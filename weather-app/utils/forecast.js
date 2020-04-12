@@ -2,6 +2,7 @@ const request = require('request')
 
 const forecast = (lat, lon, openWeatherKey, callback) => {
     let url = 'https://api.openweathermap.org/data/2.5/weather?units=metric&lat=' + lat + '&lon=' + lon + '&appid=' + openWeatherKey + ''
+    // console.log('url: ' + url)
     request({ url: url, json: true }, (error, { body }) => {
         if (error) {
         } else if (body.cod !== 200) {

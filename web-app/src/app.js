@@ -44,25 +44,23 @@ app.get('/help', (req, res) => {
 
 // No weather file, send object to page
 app.get('/weather', (req, res) => {
-    if (!req.query.location) {
+    if (!req.query.address) {
         return res.send({
             error: 'Address needs to be provided!'
         })
     }
-    geocode(req.query.location, key.MapBoxKey, (error, { lat, lon, location }) => {
+    geocode(req.query.address, key.MapBoxKey, (error, { lat, lon, location } = {}) => {
         if (error) {
-            return console.log(error)
+            return res.send({ error })
         }
         forecast(lat, lon, key.OpenWeatherKey, (error, forecastData) => {
             if (error) {
-                return console.log(error)
+                return res.send({ error })
             }
-            console.log(location)
-            console.log(forecastData)
-
             res.send({
-                address: location,
-                forecast: forecastData
+                forecast: forecastData,
+                location,
+                address: req.query.address
             })
         })
     })
