@@ -9,7 +9,7 @@ const forecast = (lat, lon, openWeatherKey, callback) => {
             callback(body.message, undefined)
         } else {
             callback(undefined,
-                body.weather[0].description + '. It\'s currently ' + body.main.temp + ' C degrees out. The wind is ' + body.wind.speed + ' m/s.'
+                'It\'s currently ' + body.main.temp + ' C degrees out, ' + body.weather[0].description + '. The wind is ' + body.wind.speed + ' m/s.'
                 /*    {
                    temp: response.body.main.temp,
                    weather: response.body.weather[0].description,

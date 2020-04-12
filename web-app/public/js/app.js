@@ -1,17 +1,24 @@
 const watherForm = document.querySelector('form')
 const search = document.querySelector('input')
+const msgOne = document.querySelector('#msg-1')
+const msgTwo = document.querySelector('#msg-2')
 
 watherForm.addEventListener('submit', (event) => {
     event.preventDefault()
 
     const location = search.value
-    console.log('location: ' + location)
+
+    msgOne.textContent = 'Loading...'
+    msgTwo.textContent = ''
 
     fetch('http://localhost:3000/weather?address=' + location).then((res) => {
         res.json().then((data) => {
             if (data.error) {
                 console.log(data.error)
+                msgOne.textContent = data.error;
             } else {
+                msgOne.textContent = data.location;
+                msgTwo.textContent = data.forecast;
                 console.log(data.location)
                 console.log(data.forecast)
             }
