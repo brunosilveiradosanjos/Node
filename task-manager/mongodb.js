@@ -10,12 +10,52 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     }
 
     console.log('Connected')
+
     const db = client.db(databaseName)
 
-    db.collection('users').insertOne({
-        name: 'Andrew',
-        age: 27
-    })
-})
+    db.collection('tasks').insertMany([
+        {
+            desccription: 'Study',
+            completed: true
+        },
+        {
+            desccription: 'Work',
+            completed: true
+        },
+        {
+            desccription: 'Sleep',
+            completed: false
+        }
+    ], (error, result) => {
+        if (error) {
+            return console.log('Unable to insert tasks')
+        }
 
-// sudo /Users/banjos77/mongodb/bin/mongod --dbpath=/Users/banjos77/mongodb-data/
+        console.log(result.ops)
+    })
+
+    // db.collection('users').insertMany([
+    //     {
+    //         name: 'Michael',
+    //         age: 31
+    //     }, {
+    //         name: 'Suellen',
+    //         age: 27
+    //     }
+    // ], (error, result) => {
+    //     if (error) {
+    //         return console.log('Unable to insert users')
+    //     }
+    //     console.log(result.ops)
+    // })
+
+    // db.collection('users').insertOne({
+    //     name: 'Giovana',
+    //     age: 30
+    // }, (error, result) => {
+    //     if (error) {
+    //         return ('Unable to insert user')
+    //     }
+    //     console.log(result.ops)
+    // })
+})
