@@ -10,7 +10,6 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     }
 
     console.log('Connected')
-
     const db = client.db(databaseName)
 
     db.collection('users').insertOne({
@@ -18,3 +17,5 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
         age: 27
     })
 })
+
+// sudo /Users/banjos77/mongodb/bin/mongod --dbpath=/Users/banjos77/mongodb-data/
