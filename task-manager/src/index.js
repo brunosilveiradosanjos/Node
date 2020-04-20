@@ -10,6 +10,10 @@ const port = process.env.PORT || 3000
 // so we can access it in our request handlers
 app.use(express.json())
 
+/***********************************  
+****************POST****************
+************************************/
+
 app.post('/users', async (req, res) => {
     const user = new User(req.body)
     try {
@@ -17,29 +21,6 @@ app.post('/users', async (req, res) => {
         res.status(201).send(user)
     } catch (e) {
         res.status(400).send(e)
-    }
-})
-
-app.get('/users', async (req, res) => {
-    try {
-        const users = await User.find({})
-        res.send(users)
-    } catch (e) {
-        res.status(500).send(e)
-    }
-})
-
-app.get('/users/:id', async (req, res) => {
-    const _id = req.params.id
-    try {
-        const user = await User.findById(_id)
-        console.log(user)
-        if (!user) {
-            return res.status(404).send()
-        }
-        res.send(user)
-    } catch (e) {
-        res.status(500).send(e)
     }
 })
 
@@ -54,10 +35,41 @@ app.post('/tasks', async (req, res) => {
     }
 })
 
+/***********************************  
+*****************GET****************
+************************************/
+
+app.get('/users', async (req, res) => {
+    try {
+        const users = await User.find({})
+        res.send(users)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
 app.get('/tasks', async (req, res) => {
     try {
         const task = await Task.find({})
         res.send(task)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+/***********************************  
+**************GET by ID*************
+************************************/
+
+app.get('/users/:id', async (req, res) => {
+    const _id = req.params.id
+    try {
+        const user = await User.findById(_id)
+        console.log(user)
+        if (!user) {
+            return res.status(404).send()
+        }
+        res.send(user)
     } catch (e) {
         res.status(500).send(e)
     }
@@ -76,6 +88,10 @@ app.get('/tasks/:id', async (req, res) => {
     }
 })
 
+/***********************************  
+*************PATCH by ID************
+************************************/
+
 app.patch('/users/:id', async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password', 'age']
@@ -91,6 +107,26 @@ app.patch('/users/:id', async (req, res) => {
             res.status(404).send()
         }
         res.send(user)
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
+
+app.patch('/tasks/:id', async (req, res) => {
+    const updates = Object.keys(req.body)
+    const alloewdUpdates = ['completed', 'description']
+    const isValidOperation = updates.every((update) => alloewdUpdates.includes(update))
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Invalid updates' })
+    }
+
+    try {
+        const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+        if (!task) {
+            res.status(404).send()
+        }
+        res.send(task)
     } catch (e) {
         res.status(400).send(e)
     }
